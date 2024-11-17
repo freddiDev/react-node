@@ -4,3 +4,6 @@ eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react
 
 # Run node JS 
   yarn dev
+
+# yarn add slugify
+  install sulgify

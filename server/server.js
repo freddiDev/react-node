@@ -2,6 +2,16 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const connectToDB = require("./database/db")
+const ErrorsMiddleware = require("./middleware/errorMiddleware");
+const LibraryError = require("./utils/libraryError");
+
+process.on("uncaughtException", (error) => {
+    console.log("Uncaught Exception..... 💣 🔥 stopping the server....");
+    console.log(error.name, error.message);
+
+    process.exit(1);
+});
+
 
 connectToDB();
 app.use(express.json());
@@ -14,9 +24,23 @@ app.get("/test", (req, res) => {
     });
 });
 
-app.listen(
+app.all("*", (req, res, next) => {
+    next(
+        new LibraryError(`Can't find ${req.originalUrl} on this server!`, 404)
+    );
+});
+
+const server = app.listen(
     PORT, 
     console.log(
         `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
     )
-);
+)
+
+process.on("unHandleRejection", (error) => {
+    console.log("Unhandled Rejection..... 💣 🔥 stopping the server....");
+    console.log(error.name, error.message);
+    server.close(() => {
+        process.exit(1);
+    });
+});
