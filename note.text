@@ -1,0 +1,6 @@
+# To install some library. (nodemon, eslint, prettier)
+yarn add -D nodemon prettier eslint eslint-config-airbnb eslint-config-prettier eslint-config-import 
+eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react 
+
+# Run node JS 
+  yarn dev
