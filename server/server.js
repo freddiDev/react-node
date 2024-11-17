@@ -4,6 +4,7 @@ const app = express();
 const connectToDB = require("./database/db")
 const ErrorsMiddleware = require("./middleware/errorMiddleware");
 const LibraryError = require("./utils/libraryError");
+const bookRoutes = require("./routes/bookRoutes");
 
 process.on("uncaughtException", (error) => {
     console.log("Uncaught Exception..... 💣 🔥 stopping the server....");
@@ -24,11 +25,15 @@ app.get("/test", (req, res) => {
     });
 });
 
+app.use("/api/v1/", bookRoutes);
+
 app.all("*", (req, res, next) => {
     next(
         new LibraryError(`Can't find ${req.originalUrl} on this server!`, 404)
     );
 });
+
+app.use(ErrorsMiddleware);
 
 const server = app.listen(
     PORT, 
