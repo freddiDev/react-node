@@ -34,6 +34,35 @@ services:
     networks:
       - library-mern-api
 
+  client:
+    restart: always
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: library_mern_nginx_frontend
+    volumes:
+      - ./client:/app
+      - ./client/node_modules:/app/node_modules 
+    depends_on:
+      - node-js
+    # ports:
+    #   - 3000:3000
+    networks:
+      - library-mern-api
+
+  nginx:
+    restart: always
+    depends_on:
+      - node-js
+      - client
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    networks:
+      - library-mern-api
+
   mongo-express:
     image: mongo-express
     depends_on:
