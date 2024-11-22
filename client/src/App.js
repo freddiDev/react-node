@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import BookListPage from "./pages/BookListPage";
+import BookPage from "./pages/BookPage";
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/books" element={<BookListPage />} />
+            <Route path="/books/:id" element={<BookPage />} />
           </Routes>
         </Container>
       </main>
